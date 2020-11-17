@@ -1,31 +1,33 @@
 
-def maxArea(height) -> int:
+def lengthOfLongestSubstring(s: str) -> int:
+    source_s = ""
+    max_s = ""
 
-    max_area = 0
-    l_i = 0
-    r_i = len(height) - 1
+    for i, c in enumerate(s):
+        if source_s == "":
+            source_s = c
+            max_s = source_s
+            continue
 
-    while True:
-        this_area = min(height[l_i], height[r_i])*(r_i - l_i)
-        if this_area > max_area:
-            max_area = this_area
+        tem_k = -1
+        for j, s_c in enumerate(source_s):
+            if c == s_c:
+                tem_k = j
+                break
 
-        if height[l_i] >= height[r_i]:
-            r_i -= 1
+        if tem_k == -1:
+            source_s = source_s + c
+        elif tem_k + 1 == len(source_s):
+            source_s = c
         else:
-            l_i += 1
+            source_s = source_s[tem_k + 1:] + c
 
-        if l_i >= r_i:
-            break
+        if len(source_s) > len(max_s):
+            max_s = source_s
 
-    return max_area
+    return len(max_s)
 
+s = "abcabcbb" # 3
 
-
-# height = [1,8,6,2,5,4,8,3,7] # 49
-# height = [1, 1] # 1
-# height = [4,3,2,1,4] # 16
-height = [1,2,1] # 2
-
-res = maxArea(height)
+res = lengthOfLongestSubstring(s)
 print(res)
