@@ -152,15 +152,35 @@ class Solution:
                             dp[k][i][j] = max(dp[k-1][i][j], dp[k-1][need_m][need_n]+1)
         return dp[len(strs)-1][m][n]
 
+    # 2021-04-23 10:59:03 二刷 【failed】
+    def findMaxForm01(self, strs, m: int, n: int):
+        memo = [[0 for _ in range(n+1)] for __ in range(m+1)]
+        for s in strs:
+            this_m_n = self.count_zeros_ones(s)
+            if this_m_n[0] > m or this_m_n[1] > n:
+                continue
+
+            for i in range(this_m_n[0], m+1)[::-1]:
+                for j in range(this_m_n[1], n+1)[::-1]:
+                    memo[i][j] = max(memo[i][j], memo[i-this_m_n[0]][j-this_m_n[1]]+1)
+        return memo[m][n]
+
+
+
 
 # ['10', '0001', '1', '0']
 # solution = BroteForceSolution()
 solution = Solution()
 
-strs = ["10", "0", "1"]
-m = 1
-n = 1
+# strs = ["10", "0", "1"]
+# m = 1
+# n = 1
+
+strs = ["10","0001","111001","1","0"]
+m = 5
+n = 3
 
 # opt = solution.findMaxForm(strs = ["10", "0001", "111001", "1", "0"], m = 5, n = 3)
-opt = solution.findMaxForm(strs, m, n)
+# opt = solution.findMaxForm(strs, m, n)
+opt = solution.findMaxForm01(strs, m, n)
 print(opt)
